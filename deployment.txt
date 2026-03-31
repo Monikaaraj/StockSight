@@ -1,0 +1,68 @@
+========================================
+    STOCKSIGHT DEPLOYMENT GUIDE
+========================================
+
+Overview
+--------
+StockSight is a real-time, Financial Forecasting and Visual 
+Analytics System. It uses a custom Machine Learning pipeline 
+(Random Forest Classifier) wrapped in a blazing-fast FastAPI 
+server to dynamically predict stock price direction and render 
+interactive technical charts.
+
+Step 1: Prerequisites
+---------------------
+1. Ensure you have Python installed (version 3.9 or higher is recommended).
+2. Open your terminal or command prompt (PowerShell).
+
+Step 2: Setup Environment (Optional but Recommended)
+----------------------------------------------------
+It is highly recommended to deploy this project inside a 
+virtual environment to prevent package conflicts. 
+
+Run the following commands in your project directory:
+> python -m venv .venv
+
+Activate the virtual environment:
+(Windows) -> .venv\Scripts\activate
+(Mac/Linux)-> source .venv/bin/activate
+
+Step 3: Install Dependencies
+----------------------------
+You need to install the required Python libraries for the AI 
+and the Web Server. Run the following pip command:
+
+> pip install fastapi uvicorn yfinance pandas numpy scikit-learn ta
+
+List of Core Dependencies:
+- fastapi & uvicorn: Handles the web server and API endpoints.
+- yfinance: Downloads the historical stock data from Yahoo.
+- pandas & numpy: Handles data manipulation and formatting.
+- ta: Calculates the technical indicators (SMA, RSI, MACD).
+- scikit-learn: Powers the RandomForestClassifier predicting engine.
+
+Step 4: Execute the Application
+-------------------------------
+Once the dependencies are successfully installed, you can start the 
+StockSight platform by passing the main.py application to the uvicorn 
+web server.
+
+Run the following command:
+> python -m uvicorn main:app --reload
+
+(Note: The '--reload' flag ensures that if you edit your python code, 
+the server will instantly refresh without needing to be restarted).
+
+Step 5: Access the Dashboard
+----------------------------
+1. Open your favorite web browser (Chrome, Safari, Edge).
+2. Navigate to: http://localhost:8000
+3. The front-end layout will load instantly, and the UI will trigger the 
+   API to fetch the default stock data.
+
+Usage
+-----
+- Use the Search bar on the left sidebar to type any valid stock ticker.
+- Valid examples: "AAPL" (Apple), "TSLA" (Tesla), "NVDA" (Nvidia), or "BTC-USD" (Bitcoin).
+- Press "Enter" or click "Search" to rerun the machine learning model 
+  against the requested ticker in real-time.

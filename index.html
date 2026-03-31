@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StockSight | Visual Analytics System</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    
+    <!-- PapaParse for CSV reading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p>Running AI Analysis...</p>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <div class="logo"></div>
+                <h1>StockSight</h1>
+            </div>
+            <p class="subtitle">AI-Powered Forecasting</p>
+            
+            <div class="search-container">
+                <input type="text" id="ticker-input" placeholder="Enter Ticker (e.g. TSLA)" onkeypress="handleSearch(event)">
+                <button onclick="fetchStockData()">Search</button>
+            </div>
+            
+            <div class="ticker-info">
+                <h2>AAPL</h2>
+                <p class="company-name">Apple Inc.</p>
+                <div class="current-price" id="last-price">--</div>
+                <div class="price-change" id="price-change">--</div>
+            </div>
+
+            <div class="ai-prediction glass-panel pulse-soft">
+                <h3>Random Forest Prediction</h3>
+                <p class="prediction-text" id="ai-pred-next">Processing...</p>
+                <span class="prediction-label">For Next Trading Day</span>
+            </div>
+
+            <nav class="nav-menu">
+                <ul id="nav-list">
+                    <li class="active" onclick="scrollToSection(0, this)">Overview Dashboard</li>
+                    <li onclick="scrollToSection(1, this)">Technical Indicators</li>
+                    <li onclick="scrollToSection(2, this)">Model Evaluation</li>
+                </ul>
+            </nav>
+            
+            <div class="footer-info">
+                Data Updated: <span id="last-date">--</span>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Top KPIs -->
+            <section id="section-model" class="kpi-grid">
+                <div class="kpi-card glass-panel">
+                    <h3>20-Day SMA</h3>
+                    <div class="value" id="kpi-sma">--</div>
+                    <div class="trend" id="kpi-sma-trend">--</div>
+                </div>
+                <div class="kpi-card glass-panel">
+                    <h3>14-Day RSI</h3>
+                    <div class="value" id="kpi-rsi">--</div>
+                    <div class="trend" id="kpi-rsi-eval">--</div>
+                </div>
+                <div class="kpi-card glass-panel">
+                    <h3>MACD Diff</h3>
+                    <div class="value" id="kpi-macd">--</div>
+                    <div class="trend" id="kpi-macd-trend">--</div>
+                </div>
+                <div class="kpi-card glass-panel highlight-kpi">
+                    <h3>Model Accuracy</h3>
+                    <div class="value model-acc">~54%</div>
+                    <div class="trend positive">Based on test set</div>
+                </div>
+            </section>
+
+            <!-- Charts Section -->
+            <section class="charts-section">
+                <!-- Main Price & SMA Chart -->
+                <div id="section-overview" class="chart-container glass-panel main-chart">
+                    <div class="chart-header">
+                        <h2>Price Action & 20-Day Moving Average</h2>
+                        <div class="legend-custom">
+                            <span class="dot price-dot"></span> Close Price
+                            <span class="dot sma-dot"></span> SMA 20
+                            <span class="dot pred-dot"></span> AI Buy Signal
+                        </div>
+                    </div>
+                    <div class="canvas-wrapper">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Secondary Indicators Grid -->
+                <div id="section-technical" class="indicators-grid">
+                    <div class="chart-container glass-panel">
+                        <h2>Relative Strength Index (14-Day)</h2>
+                        <div class="canvas-wrapper">
+                            <canvas id="rsiChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container glass-panel">
+                        <h2>MACD (12, 26, 9)</h2>
+                        <div class="canvas-wrapper">
+                            <canvas id="macdChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
